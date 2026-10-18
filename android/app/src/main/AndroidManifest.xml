@@ -27,6 +27,50 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+
+        <!-- « Ouvrir avec KmRoulant » pour les traces GPX. L'adresse du fichier
+             (content:// le plus souvent) arrive dans Linking — voir
+             MapScreen.js, receiveFile — qui l'importe dans le planificateur. -->
+
+        <!-- Fichiers déclarés GPX par l'application qui les propose -->
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="content" />
+            <data android:scheme="file" />
+            <data android:mimeType="application/gpx+xml" />
+            <data android:mimeType="application/gpx" />
+            <data android:mimeType="application/x-gpx+xml" />
+        </intent-filter>
+
+        <!-- Android ne connaît pas le GPX : beaucoup de gestionnaires de
+             fichiers le donnent en « binaire » ou en XML. On ne retient alors
+             que les adresses qui finissent par .gpx, pour ne pas apparaître
+             sur tous les fichiers du téléphone. Les motifs successifs
+             couvrent les noms contenant des points (sortie.du.12.gpx) : le
+             joker d'Android s'arrête au premier point rencontré. -->
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="content" />
+            <data android:scheme="file" />
+            <data android:host="*" />
+            <data android:mimeType="application/octet-stream" />
+            <data android:mimeType="text/xml" />
+            <data android:mimeType="application/xml" />
+            <data android:pathPattern=".*\\.gpx" />
+            <data android:pathPattern=".*\\..*\\.gpx" />
+            <data android:pathPattern=".*\\..*\\..*\\.gpx" />
+            <data android:pathPattern=".*\\.GPX" />
+            <data android:pathPattern=".*\\..*\\.GPX" />
+        </intent-filter>
       </activity>
     </application>
+    <queries>
+  <intent>
+    <action android:name="android.intent.action.TTS_SERVICE" />
+  </intent>
+</queries>
 </manifest>

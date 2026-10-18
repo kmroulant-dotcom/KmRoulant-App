@@ -24,23 +24,14 @@ workflows:
       - name: Build IPA
         script: |
           xcode-project build-ipa \
-<<<<<<< HEAD
             --project "$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
-=======
-            --project ios/ReactKmRoulant.xcodeproj \
-            --scheme ReactKmRoulant \
-            --archive-xcargs "CODE_SIGNING_ALLOWED=NO"
->>>>>>> 631cfe3a827a71786f933503a7033065f997ac99
 
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-<<<<<<< HEAD
 
     publishing:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
-=======
->>>>>>> 631cfe3a827a71786f933503a7033065f997ac99

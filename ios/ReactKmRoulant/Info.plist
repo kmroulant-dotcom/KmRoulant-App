@@ -8,6 +8,54 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>KmRoulant</string>
+	<!-- « Ouvrir avec KmRoulant » pour les traces GPX. iOS copie le fichier
+	     dans Documents/Inbox et passe son adresse file:// à l'appli : elle
+	     arrive dans Linking (voir AppDelegate) puis MapScreen.js l'importe
+	     dans le planificateur. -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Trace GPX</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.topografix.gpx</string>
+			</array>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.topografix.gpx</string>
+			<key>UTTypeDescription</key>
+			<string>Trace GPX</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>gpx</string>
+					<string>GPX</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/gpx+xml</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<!-- Copie dans Inbox plutôt qu'ouverture sur place : l'appli lit une
+	     copie qu'elle supprime ensuite, sans droits sur le fichier d'origine. -->
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -34,8 +82,28 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<!-- Textes affichés par iOS lors des demandes d'autorisation. Apple les
+	     relit à la validation : ils doivent dire concrètement à quoi sert la
+	     position (« dans la WebView » ne veut rien dire pour l'utilisateur). -->
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>L'application a besoin de votre position pour afficher votre localisation dans la WebView.</string>
+	<string>KmRoulant utilise votre position pour vous situer sur la carte, vous guider le long de votre parcours et enregistrer vos sorties.</string>
+	<!-- Demandée par mode-auto/recorder.js si iOS refuse l'enregistrement en
+	     arrière-plan avec la seule autorisation « Pendant l'utilisation ».
+	     Sans cette clé, la demande échoue et le mode Éclaireur ne démarre pas. -->
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>En mode Éclaireur, KmRoulant continue d'enregistrer votre sortie quand l'écran est éteint, pour relever l'état des chemins empruntés.</string>
+	<!-- Arrière-plan :
+	     - « location » : mode-auto (expo-location) reçoit les positions écran
+	       éteint (mode Éclaireur et guidage). Sans elle,
+	       startLocationUpdatesAsync échoue sur iOS ;
+	     - « audio » : les annonces du guidage vocal (react-native-tts) partent
+	       écran éteint. Sans elle, iOS refuse d'ouvrir la sortie audio quand
+	       l'application est en arrière-plan. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

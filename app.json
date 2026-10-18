@@ -1,4 +1,7 @@
 {
   "name": "ReactKmRoulant",
-  "displayName": "ReactKmRoulant"
+  "displayName": "ReactKmRoulant",
+  "plugins": [
+    "expo-sqlite"
+  ]
 }
