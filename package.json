@@ -11,9 +11,6 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@capacitor/cli": "^8.2.0",
-    "@capacitor/core": "^8.2.0",
-    "@capacitor/ios": "^8.2.0",
     "@notifee/react-native": "^9.1.8",
     "@react-native/new-app-screen": "0.83.0",
     "expo": "~55.0.0",
